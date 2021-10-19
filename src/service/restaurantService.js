@@ -11,3 +11,14 @@ export function getRestaurant(restaurantId, callback, errorCallback) {
 			errorCallback(error);
 		});
 }
+
+export function getOpeningHours(restaurantId, callback, errorCallback) {
+	axios
+		.get(`http://localhost:8080/restaurants/${restaurantId}/opening-hours`)
+		.then((response) => {
+			callback(response.data);
+		})
+		.catch((error) => {
+			errorCallback(error);
+		});
+}
