@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Header from '../components/header';
 import RestaurantDetails from '../components/restaurantDetails';
 import {getRestaurant, getOpeningHours} from '../service/restaurantService';
-import {Button} from 'react-bootstrap';
+import {Button, Col} from 'react-bootstrap';
 import OpeningHoursCard from '../components/openingHoursCard';
 
 const Dashboard = () => {
