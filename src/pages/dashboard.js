@@ -4,21 +4,26 @@ import RestaurantDetails from '../components/restaurantDetails';
 import {getRestaurant, getOpeningHours} from '../service/restaurantService';
 import {Button, Col, Form, Row, Container} from 'react-bootstrap';
 import OpeningHoursCard from '../components/openingHoursCard';
+import ErrorComponent from '../components/errorComponent';
 
 const Dashboard = () => {
 	const [restaurantName, setRestaurantName] = useState('');
 	const [addressLine, setAddressLine] = useState('');
+	const [averageRating, setAverageRating] = useState('');
 	const [showOpeningHours, setShowOpeningHours] = useState(false);
 	const [openingHours, setOpeningHours] = useState('');
 	const [restaurantId, setRestaurantId] = useState('');
+	const [restaurantSearchErrorMessage, setRestaurantSearchErrorMessage] = useState('');
 	const [restaurantLoaded, setRestaurantLoaded] = useState(false);
 
 	const fetchAndShowOpeningHours = () => {
-		if (!openingHours) {
-			getOpeningHours(restaurantId, (response) => {
+		getOpeningHours(
+			restaurantId,
+			(response) => {
 				setOpeningHours(response.openingHours);
-			});
-		}
+			},
+			() => {}
+		);
 		setShowOpeningHours(!showOpeningHours);
 	};
 
@@ -28,13 +33,20 @@ const Dashboard = () => {
 			(response) => {
 				setRestaurantName(response.name);
 				setAddressLine(response.addressLine);
+				setAverageRating(response.averageRating);
 				setRestaurantLoaded(true);
 			},
 			() => {
 				setRestaurantLoaded(false);
+				setRestaurantSearchErrorMessage('Restaurant does not exist');
 			}
 		);
+		if (showOpeningHours) {
+			fetchAndShowOpeningHours();
+		}
 	};
+
+	const openingHoursBtnMessage = !showOpeningHours ? 'Show opening hours' : 'Hide opening hours';
 
 	return (
 		<React.Fragment>
@@ -64,10 +76,12 @@ const Dashboard = () => {
 
 			{restaurantLoaded ? (
 				<React.Fragment>
-					<RestaurantDetails restaurantName={restaurantName} addressLine={addressLine} />
-					<Button onClick={() => fetchAndShowOpeningHours(restaurantId)}>Show opening hours</Button>
+					<RestaurantDetails restaurantName={restaurantName} addressLine={addressLine} averageRating={averageRating} />
+					<Button onClick={() => fetchAndShowOpeningHours(restaurantId)}>{openingHoursBtnMessage}</Button>
 				</React.Fragment>
-			) : null}
+			) : (
+				<ErrorComponent message={restaurantSearchErrorMessage} />
+			)}
 			{showOpeningHours ? <OpeningHoursCard openingHours={openingHours} /> : null}
 		</React.Fragment>
 	);
