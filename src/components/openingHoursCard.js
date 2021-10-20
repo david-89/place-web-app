@@ -1,28 +1,40 @@
 import React from 'react';
-import {Col, Row, Container} from 'react-bootstrap';
+import {Col, Row} from 'react-bootstrap';
 
 const OpeningHoursCard = (props) => {
 	const {openingHours} = props;
 	return (
 		<React.Fragment>
-			<h2>Opening hours</h2>
-			<Col>
+			<Col xs={6} className="col-md-offset-2 mb-3">
+				<Col md={6} className="col-md-offset-5 mb-3">
+					<Row md={8} className="fs-3">
+						<strong>Opening hours</strong>
+					</Row>
+				</Col>
+				<p></p>
 				{Object.keys(openingHours).map(function (daySequence, daySequenceIndex) {
 					return (
 						<React.Fragment>
-							<Container>
+							<Col md={6} className="col-md-offset-6">
 								<Row>
-									<Col key={daySequence} xs={6}>
-										<Row key={daySequenceIndex}>{daySequence}</Row>
+									<Col key={daySequence} xs={12} md={5}>
+										<Row className="fs-4" key={daySequenceIndex}>
+											{daySequence}
+										</Row>
 									</Col>
-									<Col key={daySequenceIndex} xs={6}>
+									<Col key={daySequenceIndex} xs={12} md={5}>
 										{openingHours[daySequence].map((shift, index) => {
-											return <Row key={index}>{shift}</Row>;
+											return (
+												<Row className="fs-4" key={index}>
+													{shift}
+												</Row>
+											);
 										})}
 									</Col>
-									&nbsp; &nbsp; &nbsp;
+									<p></p>
+									<p></p>
 								</Row>
-							</Container>
+							</Col>
 						</React.Fragment>
 					);
 				})}
