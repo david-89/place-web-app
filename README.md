@@ -5,7 +5,7 @@ Upon request, it will show the working hours of the place grouped by shift.
 
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). For styling, React bootsrap was used:
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). For styling, React bootstrap was used:
 
 https://react-bootstrap.github.io/
 
