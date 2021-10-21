@@ -1,6 +1,6 @@
 # App basic info
 
-The application displays the data about the required restaurant. The id can be entered in the search field and the basic info about the place will be shown.
+The application displays the data about the required place. The id can be entered in the search field and the basic info about the place will be shown.
 Upon request, it will show the working hours of the place grouped by shift.
 
 # Getting Started with Create React App
