@@ -14,9 +14,9 @@ const OpeningHoursCard = (props) => {
 				<p></p>
 				{Object.keys(openingHours).map(function (daySequence, daySequenceIndex) {
 					return (
-						<React.Fragment>
-							<Col md={6} className="col-md-offset-6">
-								<Row>
+						<React.Fragment key={daySequence}>
+							<Col key={daySequence} md={6} className="col-md-offset-6">
+								<Row key={daySequenceIndex}>
 									<Col key={daySequence} xs={12} md={5}>
 										<Row className="fs-4" key={daySequenceIndex}>
 											{daySequence}

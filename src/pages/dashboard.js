@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import Header from '../components/header';
-import RestaurantDetails from '../components/restaurantDetails';
+import Header from '../components/Header';
+import RestaurantDetails from '../components/RestaurantDetails';
 import {getRestaurant, getOpeningHours} from '../service/restaurantService';
 import {Button, Col, Form, Row, Container} from 'react-bootstrap';
-import OpeningHoursCard from '../components/openingHoursCard';
-import ErrorComponent from '../components/errorComponent';
+import OpeningHoursCard from '../components/OpeningHoursCard';
+import ErrorComponent from '../components/ErrorComponent';
 
 const Dashboard = () => {
 	const [restaurantName, setRestaurantName] = useState('');
@@ -18,7 +18,7 @@ const Dashboard = () => {
 
 	const fetchAndShowOpeningHours = () => {
 		getOpeningHours(
-			restaurantId,
+			restaurantId.replace(/\s+$/, ''),
 			(response) => {
 				setOpeningHours(response.openingHours);
 			},
@@ -29,7 +29,7 @@ const Dashboard = () => {
 
 	const fetchRestaurantDetails = () => {
 		getRestaurant(
-			restaurantId,
+			restaurantId.replace(/\s+$/, ''),
 			(response) => {
 				setRestaurantName(response.name);
 				setAddressLine(response.addressLine);
