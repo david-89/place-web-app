@@ -1,24 +1,24 @@
 import React, {useState} from 'react';
 import Header from '../components/Header';
-import RestaurantDetails from '../components/RestaurantDetails';
-import {getRestaurant, getOpeningHours} from '../service/restaurantService';
+import PlaceDetails from '../components/PlaceDetails';
+import {getPlace, getOpeningHours} from '../service/placeService';
 import {Button, Col, Form, Row, Container} from 'react-bootstrap';
 import OpeningHoursCard from '../components/OpeningHoursCard';
 import ErrorComponent from '../components/ErrorComponent';
 
 const Dashboard = () => {
-	const [restaurantName, setRestaurantName] = useState('');
+	const [placeName, setPlaceName] = useState('');
 	const [addressLine, setAddressLine] = useState('');
 	const [averageRating, setAverageRating] = useState('');
 	const [showOpeningHours, setShowOpeningHours] = useState(false);
 	const [openingHours, setOpeningHours] = useState('');
-	const [restaurantId, setRestaurantId] = useState('');
-	const [restaurantSearchErrorMessage, setRestaurantSearchErrorMessage] = useState('');
-	const [restaurantLoaded, setRestaurantLoaded] = useState(false);
+	const [placeId, setPlaceId] = useState('');
+	const [searchErrorMessage, setSearchErrorMessage] = useState('');
+	const [placeLoaded, setPlaceLoaded] = useState(false);
 
 	const fetchAndShowOpeningHours = () => {
 		getOpeningHours(
-			restaurantId.replace(/\s+$/, ''),
+			placeId.replace(/\s+$/, ''),
 			(response) => {
 				setOpeningHours(response.openingHours);
 			},
@@ -27,18 +27,18 @@ const Dashboard = () => {
 		setShowOpeningHours(!showOpeningHours);
 	};
 
-	const fetchRestaurantDetails = () => {
-		getRestaurant(
-			restaurantId.replace(/\s+$/, ''),
+	const fetchPlaceDetails = () => {
+		getPlace(
+			placeId.replace(/\s+$/, ''),
 			(response) => {
-				setRestaurantName(response.name);
+				setPlaceName(response.name);
 				setAddressLine(response.addressLine);
 				setAverageRating(response.averageRating);
-				setRestaurantLoaded(true);
+				setPlaceLoaded(true);
 			},
 			() => {
-				setRestaurantLoaded(false);
-				setRestaurantSearchErrorMessage('Restaurant does not exist');
+				setPlaceLoaded(false);
+				setSearchErrorMessage('Place does not exist');
 			}
 		);
 		if (showOpeningHours) {
@@ -50,37 +50,32 @@ const Dashboard = () => {
 
 	return (
 		<React.Fragment>
-			<Header title="Restaurant management UI" />
+			<Header title="Place management UI" />
 
 			<Container className="mt-5">
 				<Row>
 					<Col xs={6} md={6} className="col-md-offset-3">
 						<Row>
 							<Form.Group>
-								<Form.Control
-									placeholder="Enter restaurant id"
-									value={restaurantId}
-									onChange={(e) => setRestaurantId(e.target.value)}
-									type="text"
-								/>
+								<Form.Control placeholder="Enter place id" value={placeId} onChange={(e) => setPlaceId(e.target.value)} type="text" />
 							</Form.Group>
 						</Row>
 					</Col>
 					<Col xs={1}>
-						<Button className="btnFormSend" onClick={() => fetchRestaurantDetails(restaurantId)}>
+						<Button className="btnFormSend" onClick={() => fetchPlaceDetails()}>
 							Search
 						</Button>
 					</Col>
 				</Row>
 			</Container>
 
-			{restaurantLoaded ? (
+			{placeLoaded ? (
 				<React.Fragment>
-					<RestaurantDetails restaurantName={restaurantName} addressLine={addressLine} averageRating={averageRating} />
-					<Button onClick={() => fetchAndShowOpeningHours(restaurantId)}>{openingHoursBtnMessage}</Button>
+					<PlaceDetails name={placeName} addressLine={addressLine} averageRating={averageRating} />
+					<Button onClick={() => fetchAndShowOpeningHours(placeId)}>{openingHoursBtnMessage}</Button>
 				</React.Fragment>
 			) : (
-				<ErrorComponent message={restaurantSearchErrorMessage} />
+				<ErrorComponent message={searchErrorMessage} />
 			)}
 			{showOpeningHours ? <OpeningHoursCard openingHours={openingHours} /> : null}
 		</React.Fragment>
